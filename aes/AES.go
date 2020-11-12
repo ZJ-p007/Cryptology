@@ -1,5 +1,5 @@
-package AES
-//https://github.com/ZJ-p007/Cryptology.git
+package aes
+
 import (
 	"CryptCode/utils"
 	"crypto/aes"

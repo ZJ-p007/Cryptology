@@ -38,8 +38,9 @@ func TripeDesDecrypt(ciphertext []byte,key []byte) ([]byte,error) {
 	}
 	//不需要对密文进行填充，可直接使用，实例化一个mode
 	blockMode :=cipher.NewCBCDecrypter(block,key)
-	orininText := make([]byte,len(ciphertext))//明文
-	blockMode.CryptBlocks(orininText,ciphertext)
-	return orininText,nil
+	originText := make([]byte,len(ciphertext))//明文
+	blockMode.CryptBlocks(originText,ciphertext)
+	originText = utils.ClearPKCS5Padding(originText,block.BlockSize())
+	return originText,nil
 }
 
