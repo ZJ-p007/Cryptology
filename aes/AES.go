@@ -6,7 +6,7 @@ import (
 	"crypto/cipher"
 	"fmt"
 )
-
+//https://github.com/ZJ-p007/Cryptology.git
 func AessEnCrypt(origin []byte,key []byte) ([]byte,error) {
 //3元素:key,data,mode
 	block,err :=aes.NewCipher(key)
