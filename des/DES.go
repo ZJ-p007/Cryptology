@@ -15,6 +15,7 @@ func DESEnCrypt(data []byte, key []byte) ([]byte,error) {
 	}
 	//对数据进行尾部填充
 	originData :=utils.PKCS5EndPadding(data,block.BlockSize())//填充后明文
+
 	blockMode :=cipher.NewCBCEncrypter(block,key)
 	cipherData := make([]byte, len(originData))
     blockMode.CryptBlocks(cipherData,originData)

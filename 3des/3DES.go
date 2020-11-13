@@ -12,6 +12,7 @@ func TripleDesEncrypt(orgitext []byte,key []byte ) ([]byte,error) {
 	//1.实例化一个Cipher
 	block,err := des.NewTripleDESCipher(key)
 	if err != nil{
+		//fmt.Println(err.Error())
 		return nil,err
 	}
 	//对明文进行尾部填充
@@ -20,7 +21,7 @@ func TripleDesEncrypt(orgitext []byte,key []byte ) ([]byte,error) {
     //cryptData := PKCS5EndPadding(orgitext,block.BlockSize())
 	cryptData := utils.ZeroEndPadding(orgitext,block.BlockSize())
     //加密模式
-    mode := cipher.NewCBCEncrypter(block,key)
+    mode := cipher.NewCBCEncrypter(block,key[:block.BlockSize()])
     //对填充后的明文分组加密
     cipherText := make([]byte,len(cryptData))
     mode.CryptBlocks(cipherText,cryptData)
@@ -37,7 +38,7 @@ func TripeDesDecrypt(ciphertext []byte,key []byte) ([]byte,error) {
     	return nil,err
 	}
 	//不需要对密文进行填充，可直接使用，实例化一个mode
-	blockMode :=cipher.NewCBCDecrypter(block,key)
+	blockMode :=cipher.NewCBCDecrypter(block,key[:block.BlockSize()])
 	originText := make([]byte,len(ciphertext))//明文
 	blockMode.CryptBlocks(originText,ciphertext)
 	originText = utils.ClearPKCS5Padding(originText,block.BlockSize())

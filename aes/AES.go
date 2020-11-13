@@ -4,9 +4,10 @@ import (
 	"CryptCode/utils"
 	"crypto/aes"
 	"crypto/cipher"
+	"fmt"
 )
 
-func AesEnCrypt(origin []byte,key []byte) ([]byte,error) {
+func AessEnCrypt(origin []byte,key []byte) ([]byte,error) {
 //3元素:key,data,mode
 	block,err :=aes.NewCipher(key)
 	if err != nil{
@@ -20,4 +21,20 @@ func AesEnCrypt(origin []byte,key []byte) ([]byte,error) {
    ciperData := make([]byte,len(cryptData))
    blockMode.CryptBlocks(ciperData,cryptData)
    return cryptData,nil
+}
+
+//AES解密
+func AessDecrypt(cipherBytes []byte,key []byte) ([]byte,error) {
+	block,err :=aes.NewCipher(key)
+	if err != nil{
+		fmt.Println(err.Error())
+	}
+	blockMode :=cipher.NewCBCDecrypter(block,key)
+    originBytes := make([]byte,len(cipherBytes))
+    blockMode.CryptBlocks(originBytes,cipherBytes)
+    originBytes = utils.PKCS5EndPadding(originBytes,block.BlockSize())
+	//originBytes = utils.ClearPKCS5Padding(originBytes,block.BlockSize())
+    return originBytes,nil
+
+
 }
