@@ -22,7 +22,7 @@ func ZeroEndPadding(text []byte,size int) []byte {
 
 //该函数用于对解密后的数据进行尾部去除
 func ClearPKCS5Padding(text []byte,size int) []byte {
-	/*if  len(text)%size == 1{//明文刚刚充满一组，则不用去除
+	/*if  len(text)%size == 1 { //明文刚刚充满一组，则不用去除
 		return text
 	}*/
 	lastEle :=int(text [len(text) - 1])
